@@ -39,6 +39,13 @@ void GameDrawing();
 void DrawTiles();
 void DrawGUI();
 
+void ProcessInput(int whatContext);
+
+void UpdateGamesystem();
+void GuiUpdateElements();
+
+void InitCamera();
+
 Overworld *overworld;
 
 int main(int argc, char*argv[])
@@ -118,6 +125,7 @@ int main(int argc, char*argv[])
     //GuiInit();
 
     overworld = new Overworld(worldSize);
+    InitCamera();
 
     al_start_timer(FPStimer);
 
@@ -164,6 +172,14 @@ int main(int argc, char*argv[])
 
 void GameLogic()
 {
+    if(controlContextChangeDelay > 0)
+        controlContextChangeDelay --;
+
+    if(ev.type == ALLEGRO_EVENT_TIMER)
+    {
+        ProcessInput(controlContext);
+    }
+
 
 }
 
@@ -212,9 +228,9 @@ void DrawTiles()
             if(hex != nullptr)
                 al_draw_bitmap_region(gfxOverworldSheet,
                                   HEX_SIZE * hex->base, 0,
-                                  HEX_SIZE, 42,
-                                  hex->xPosition,
-                                  hex->yPosition + ISOMETRIC_OFFSET_Y*hex->rCell, // At the moment, 42 is the height of the tile sprite.
+                                  HEX_SIZE, HEX_SIZE,
+                                  hex->xPosition + SCREEN_W/2 - cameraXPosition,
+                                  hex->yPosition + SCREEN_H/2 - cameraYPosition,
                                   0);
         }
     }
@@ -223,4 +239,39 @@ void DrawTiles()
 void DrawGUI()
 {
 
+}
+
+void ProcessInput(int whatContext)
+{
+    switch(whatContext)
+    {
+    case CONTROL_CONTEXT_OVERWORLD:
+
+        //keyboard control of camera
+        if(keyInput[KEY_PAD_1] || keyInput[KEY_PAD_4] || keyInput[KEY_PAD_7])
+            cameraXPosition -= 8;
+        if(keyInput[KEY_PAD_1] || keyInput[KEY_PAD_2] || keyInput[KEY_PAD_3])
+            cameraYPosition += 8;
+        if(keyInput[KEY_PAD_3] || keyInput[KEY_PAD_6] || keyInput[KEY_PAD_9])
+            cameraXPosition += 8;
+        if(keyInput[KEY_PAD_7] || keyInput[KEY_PAD_8] || keyInput[KEY_PAD_9])
+            cameraYPosition -= 8;
+        if(keyInput[KEY_PAD_5])
+            InitCamera();
+
+        //mouse control of camera
+
+        break;
+    }
+}
+
+void GuiUpdateElements()
+{
+
+}
+
+void InitCamera()
+{
+    cameraXPosition = worldSize*0.75 * HEX_SIZE;
+    cameraYPosition = worldSize/2 * 0.75*HEX_SIZE;
 }

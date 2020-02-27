@@ -4,7 +4,7 @@ ALLEGRO_BITMAP *gfxOverworldSheet = nullptr;
 
 void LoadResources()
 {
-    gfxOverworldSheet = al_load_bitmap("overworldSheet32x42.png");
+    gfxOverworldSheet = al_load_bitmap("hexStripe.png");
 }
 
 void UnloadResources()

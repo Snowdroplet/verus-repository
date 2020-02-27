@@ -1,6 +1,9 @@
 #ifndef GAMESYSTEM_H_INCLUDED
 #define GAMESYSTEM_H_INCLUDED
 
+/// Math constants
+const float PI = 3.141592;
+
 /// Main loop controls
 extern bool gameExit; // Terimination condition of main loop.
 extern bool redraw;
@@ -13,14 +16,28 @@ enum enumMainPhases
     MAIN_PHASE_GAME = 2
 };
 
-/// Math constants
-const float PI = 3.141592;
+/// Input and interface controls
+extern int controlContext;
+enum enumControlContexts
+{
+    CONTROL_CONTEXT_OVERWORLD = 0,
+    CONTROL_CONTEXT_HEX_INFO = 1
+};
 
-/// Display and window constants
+extern int controlContextChangeDelay;
+
+/// Display, window, and camera control
 const float FPS = 60;
 
 const int SCREEN_W = 1600;
 const int SCREEN_H = 900;
+
+extern int cameraXPosition;
+extern int cameraYPosition;
+
+extern int drawingXCellCutoff;
+extern int drawingYCellCutoff;
+
 
 /*
 // ALLEGRO_BITMAP*scaleBuffer;
@@ -35,10 +52,8 @@ int scaleY = (windowHeight - scaleH) / 2;
 */
 
 /// Drawing coordinate constants
-const int HEX_SIZE = 32;
+const int HEX_SIZE = 64;
 const int MINI_HEX_SIZE = HEX_SIZE/4;
-
-const int ISOMETRIC_OFFSET_Y = -3; // Modify drawing position to account for isometric effect
 
 /// Direction constants
 enum enumDirections
@@ -65,5 +80,7 @@ enum enumInputDirections
 
 /// Overworld controls
 extern int worldSize; // The length of one edge of the hexagonal world.
+
+
 
 #endif // GAMESYSTEM_H_INCLUDED

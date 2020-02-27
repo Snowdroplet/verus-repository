@@ -24,7 +24,7 @@ Overworld::Overworld(int ws)
             if(q < triangleEdge-r || q >= rhombusEdge+triangleEdge-r) // If a cell is inside the upper-left or lower-right triangle
                 hexGraph.push_back(nullptr);
             else
-                hexGraph.push_back(new Hex(q,r,HEX_BASE_GRASS));
+                hexGraph.push_back(new Hex(q,r,rand()%5)); // Random terrain for now
         }
     }
     // Connect the graph by listing each hex's adjacent nodes.
